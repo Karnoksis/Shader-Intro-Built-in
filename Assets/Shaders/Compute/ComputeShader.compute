@@ -18,13 +18,32 @@ RWStructuredBuffer<Pos> pos;
 float count;
 float3 pointss;
 
+float sqr(float a)
+{ 
+    return a*a;
+}
+
+float CalculateY(float Y, int index)
+{
+    float dist = distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz);
+    float gravity = min(0.0001*dist,1);
+
+
+    Y = Y + min(1/dist,1)/10 - (gravity*Y);
+
+
+    
+
+    return Y;
+}
+
 [numthreads(16,16,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
     uint index = id.y*count + id.x; // Рассчитываем линейный индекс
     if (index < pos.Length)
     {
-       pos[index].position = float3(id.x % count, 1/distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz)*20,id.y%count);
+       pos[index].position = float3(id.x % count, CalculateY(pos[index].position.y, index),id.y%count);
     }
 }
 //pos[index].position.y+distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz)/1000

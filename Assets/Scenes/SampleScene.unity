@@ -489,6 +489,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1098949445043527976, guid: 4db3606f4b6290248a01193e404abe17, type: 3}
+      propertyPath: mesh
+      value: 
+      objectReference: {fileID: 5140355703917594671, guid: 1387ea0d3204f1f40b46b5cb1628e124, type: 3}
+    - target: {fileID: 1098949445043527976, guid: 4db3606f4b6290248a01193e404abe17, type: 3}
       propertyPath: Point
       value: 
       objectReference: {fileID: 1724601782}
