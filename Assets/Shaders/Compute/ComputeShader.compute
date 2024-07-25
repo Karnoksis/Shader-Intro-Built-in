@@ -47,3 +47,4 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     }
 }
 //pos[index].position.y+distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz)/1000
+
