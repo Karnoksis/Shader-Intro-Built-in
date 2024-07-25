@@ -1,0 +1,30 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+
+struct Pos
+{
+    float3 position;
+};
+
+
+
+#include "UnityCG.cginc"
+
+RWStructuredBuffer<Pos> pos;
+
+float count;
+float3 pointss;
+
+[numthreads(16,16,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.y*count + id.x; // Рассчитываем линейный индекс
+    if (index < pos.Length)
+    {
+       pos[index].position = float3(id.x % count, 1/distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz)*20,id.y%count);
+    }
+}
+//pos[index].position.y+distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz)/1000
