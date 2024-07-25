@@ -10,7 +10,7 @@ public class ComputeShaderMoving2 : MonoBehaviour
     public Transform Point;
     public struct Pos
     {
-        public Vector3 Position;
+        public Vector4 Position;
     }
 
     public Pos[] data;
@@ -23,7 +23,18 @@ public class ComputeShaderMoving2 : MonoBehaviour
     void Start()
     {
         data = new Pos[MeshCount*MeshCount];
-        positionBuffer = new ComputeBuffer(data.Length, sizeof(float) * 3);
+        positionBuffer = new ComputeBuffer(data.Length, sizeof(float) * 4);
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i].Position.w = 1;
+        }
+
+        for (int i = 0; i < data.Length/2; i++)
+        {
+            data[i].Position.w = 20;
+        }
+
         positionBuffer.SetData(data);
         computeShader.SetBuffer(0, "pos", positionBuffer);
         computeShader.SetFloat("count", MeshCount);

@@ -6,7 +6,7 @@
 
 struct Pos
 {
-    float3 position;
+    float4 position;
 };
 
 
@@ -25,15 +25,15 @@ float sqr(float a)
 
 float CalculateY(float Y, int index)
 {
+    float radius = 20;
+
     float dist = distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz);
-    float gravity = min(0.0001*dist,1);
+    float gravity = min(0.0001*min(dist,radius),1);
 
-
+    if (dist > radius)
     Y = Y + min(1/dist,1)/10 - (gravity*Y);
-
-
-    
-
+    else
+    Y = Y + min(1/dist,1)/10 * pos[index].position.w/10;
     return Y;
 }
 
@@ -43,7 +43,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     uint index = id.y*count + id.x; // Рассчитываем линейный индекс
     if (index < pos.Length)
     {
-       pos[index].position = float3(id.x % count, CalculateY(pos[index].position.y, index),id.y%count);
+       pos[index].position.xyz = float3(id.x % count, CalculateY(pos[index].position.y, index),id.y%count);
     }
 }
 //pos[index].position.y+distance(float2(pos[index].position.x,pos[index].position.z),pointss.xz)/1000

@@ -22,9 +22,10 @@ Shader "Unlit/UnlitForCompute"
 				float4 pos : SV_Position;
                 float3 normal : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
+                float weight : TEXCOORD2;
 			};
 
-            StructuredBuffer<float3> _Positions;
+            StructuredBuffer<float4> _Positions;
 
             fixed4 _BaseColor;
 
@@ -36,6 +37,7 @@ Shader "Unlit/UnlitForCompute"
                 o.worldPos = wpos;
                 o.pos = mul(UNITY_MATRIX_VP, wpos);
                 o.normal = v.normal;
+                o.weight = _Positions[instanceID].w;
                 return o;
             }
 
@@ -48,7 +50,8 @@ Shader "Unlit/UnlitForCompute"
                 float lambertLight = max(0.5, dot(worldNormal, lightDir));
 
                 float4 color = float4(lambertLight,lambertLight,lambertLight,1);
-                return color*_BaseColor*max(saturate(i.worldPos.y),0.5);
+
+                return color*_BaseColor*max(saturate(i.worldPos.y),0.5) * min(i.weight,0.5);
             }
             ENDCG
         }
