@@ -22,7 +22,7 @@ public class ComputeShaderMoving2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        data = new Pos[MeshCount*MeshCount];
+        data = new Pos[MeshCount*MeshCount*MeshCount];
         positionBuffer = new ComputeBuffer(data.Length, sizeof(float) * 3);
         positionBuffer.SetData(data);
         computeShader.SetBuffer(0, "pos", positionBuffer);
@@ -38,7 +38,7 @@ public class ComputeShaderMoving2 : MonoBehaviour
     void Update()
     {
         computeShader.SetVector("pointss", Point.transform.position);
-        computeShader.Dispatch(0, MeshCount/16, MeshCount/16, 1);
+        computeShader.Dispatch(0, MeshCount/8, MeshCount/8, MeshCount / 8);
         //positionBuffer.GetData(data);
         rp.matProps.SetBuffer("_Positions", positionBuffer);
         Graphics.RenderMeshPrimitives(rp, mesh, 0, positionBuffer.count);
