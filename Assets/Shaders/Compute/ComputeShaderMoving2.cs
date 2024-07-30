@@ -32,6 +32,7 @@ public class ComputeShaderMoving2 : MonoBehaviour
         rp = new RenderParams(material);
         rp.worldBounds = bounds;
         rp.matProps = new MaterialPropertyBlock();
+        rp.matProps.SetBuffer("_Positions", positionBuffer);
     }
 
     // Update is called once per frame
@@ -40,7 +41,6 @@ public class ComputeShaderMoving2 : MonoBehaviour
         computeShader.SetVector("pointss", Point.transform.position);
         computeShader.Dispatch(0, MeshCount/8, MeshCount/8, MeshCount / 8);
         //positionBuffer.GetData(data);
-        rp.matProps.SetBuffer("_Positions", positionBuffer);
         Graphics.RenderMeshPrimitives(rp, mesh, 0, positionBuffer.count);
     }
 }
