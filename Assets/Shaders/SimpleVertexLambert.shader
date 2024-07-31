@@ -17,6 +17,7 @@
             {
                 float4 vertex : POSITION; //POSITION - координаты вершины в пространстве объекта
                 float4 normal : NORMAL;
+                
                 float2 uv : TEXCOORD0; //TEXCOORD0 - координаты вершин в нулевом UV пространстве
             };
 
@@ -33,15 +34,14 @@
                 o.vertex = UnityObjectToClipPos(v.vertex);   
 
                 float3 worldNormal = mul(unity_ObjectToWorld, v.normal);
-                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
-                o.lambertLight = max(0.0, dot(worldNormal, lightDir));
+                float3 lightDir = _WorldSpaceLightPos0.xyz;
+                o.lambertLight = max(0,dot(worldNormal, lightDir));
 
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-
                 float4 color = float4(i.lambertLight,i.lambertLight,i.lambertLight,1);
                 return color;
             }

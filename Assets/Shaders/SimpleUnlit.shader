@@ -2,6 +2,7 @@
 {
     Properties
     {
+        _Color ("Color", Color) = (0,0,0,0)
     }
     SubShader
     {
@@ -25,6 +26,8 @@
                 float4 vertex : SV_POSITION;
             };
 
+            float4 _Color;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -34,8 +37,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float4 color = float4(1,0,0,1);
-                return color;
+                return _Color;
             }
             ENDCG
         }

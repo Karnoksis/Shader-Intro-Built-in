@@ -61,12 +61,11 @@ Shader "Custom/Saturation"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float4 col = tex2D(_MainTex, i.uv);
-                float3 HSVColor = RGBToHSV(col.xyz);
+                float4 tex = tex2D(_MainTex, i.uv);
+                float3 HSVColor = RGBToHSV(tex.xyz);
                 HSVColor.y = _Saturation;
-                col = fixed4(HSVToRGB(HSVColor),1);
-
-                return col;
+                tex = fixed4(HSVToRGB(HSVColor),1);
+                return tex;
             }
             ENDCG
         }

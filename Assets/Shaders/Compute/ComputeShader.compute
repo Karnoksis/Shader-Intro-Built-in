@@ -36,7 +36,8 @@ float CalculateY(float Y, int index, uint3 id)
    // float intake = min(1/(distXZ),10)/10;
     float intake = smoothstep(0.01, 1 , 1/distXZ);
 
-    Y = Y + intake - (gravity*Y);  
+    Y = Y + intake - (gravity*Y);
+  
     return Y;
 }
 
